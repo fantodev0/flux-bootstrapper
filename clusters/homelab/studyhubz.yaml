@@ -1,0 +1,69 @@
+## production
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: studyhubz-prod
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  url: https://github.com/fanto237/studyhub
+  secretRef:
+    name: github-spoke-token
+  ref:
+    branch: main
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: studyhubz-prod-deploy
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  retryInterval: 1m
+  timeout: 5m
+  wait: true
+  path: ./kubernetes
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: studyhubz-prod
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+
+---
+
+## staging / beta
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: studyhubz-staging
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  url: https://github.com/fanto237/studyhub
+  secretRef:
+    name: github-spoke-token
+  ref:
+    branch: develop
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: studyhubz-staging-deploy
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  retryInterval: 1m
+  timeout: 5m
+  wait: true
+  path: ./kubernetes
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: studyhubz-staging
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
