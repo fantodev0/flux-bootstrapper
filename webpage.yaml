@@ -1,0 +1,32 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: webpage-repo
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  url: https://github.com/fantodev0/webpage
+  secretRef:
+    name: github-spoke-token
+  ref:
+    branch: main
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: webpage-deploy
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  retryInterval: 1m
+  timeout: 5m
+  wait: true
+  path: ./
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: webpage-repo
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
