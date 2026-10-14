@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1m0s
-  url: https://github.com/fanto237/k8s-homelab
+  url: https://github.com/fantodev0/k8s-homelab
   secretRef:
     name: github-spoke-token
   ref:

@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1m0s
-  url: https://github.com/fanto237/studyhub
+  url: https://github.com/fantodev0/studyhub
   secretRef:
     name: github-spoke-token
   ref:
@@ -42,7 +42,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1m0s
-  url: https://github.com/fanto237/studyhub
+  url: https://github.com/fantodev0/studyhub
   secretRef:
     name: github-spoke-token
   ref:
